@@ -21,7 +21,7 @@ const spawnChildProcess = async (args) => {
   });
 
   child.stdin.write(JSON.stringify(args));
-  child.stdin.end();
+  
 };
 
 // Put your arguments in function call to test this functionality
