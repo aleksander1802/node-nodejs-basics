@@ -6,10 +6,13 @@ const spawnChildProcess = async (args) => {
 
   const child = fork(pathToFile, [...args], { stdio: 'inherit' });
 
-  child.on('close', (code) => {
-    if (code !== 0) {
-      console.error(`Child process exited with code ${code}`);
-    }
+  await new Promise((resolve) => {
+    child.on('close', (code) => {
+      if (code !== 0) {
+        console.error(`Child process exited with code ${code}`);
+      }
+      resolve();
+    });
   });
 };
 
