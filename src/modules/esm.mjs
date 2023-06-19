@@ -1,4 +1,4 @@
-import path from 'path';
+import path, { resolve } from 'path';
 import { release, version } from 'node:os';
 import { createServer as createServerHttp } from 'http';
 import './files/c.js';
@@ -6,14 +6,18 @@ import url from 'url';
 
 const random = Math.random();
 const __filename = url.fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __dirname = resolve(__filename);
 
 let unknownObject;
 
 if (random > 0.5) {
-  unknownObject = path.resolve('./files/a.json');
+  unknownObject = await import('./files/a.json', {
+    assert: { type: 'json' },
+  });
 } else {
-  unknownObject = path.resolve('./files/b.json');
+  unknownObject = await import('./files/b.json', {
+    assert: { type: 'json' },
+  });
 }
 
 console.log(`Release ${release()}`);

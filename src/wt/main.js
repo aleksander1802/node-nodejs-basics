@@ -31,7 +31,6 @@ async function performCalculations() {
       const result = await promise;
       results.push({ status: 'resolved', data: result });
     } catch (error) {
-      console.log(`Error in worker: ${error}`);
       results.push({ status: 'error', data: null });
     }
   }
