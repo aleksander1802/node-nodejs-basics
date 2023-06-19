@@ -2,10 +2,11 @@ import path from 'path';
 import { release, version } from 'node:os';
 import { createServer as createServerHttp } from 'http';
 import './files/c.js';
+import url from 'url';
 
 const random = Math.random();
-const __filename = new URL(import.meta.url).pathname;
-const __dirname = path.dirname(new URL(import.meta.url).pathname);
+const __filename = url.fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 let unknownObject;
 

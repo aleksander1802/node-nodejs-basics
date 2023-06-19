@@ -1,20 +1,24 @@
-import fs from 'fs/promises';
-import path from 'path';
+import fs from 'fs';
+import { resolve } from 'path';
 
 const rename = async () => {
-  const fileName = path.resolve('src/fs/files/wrongFilename.txt');
-  const renameFileName = path.resolve('src/fs/files/properFilename.md');
+  const fileName = resolve('src/fs/files/wrongFilename.txt');
+  const renameFileName = resolve('src/fs/files/properFilename.md');
+  const errorMessage = 'FS operation failed';
 
-  try {
-    await fs.access(renameFileName);
-    throw new Error('FS operation failed');
-  } catch (error) {
-    if (error.code === 'ENOENT') {
-      await fs.rename(fileName, renameFileName);
+  fs.access(renameFileName, async (err) => {
+    if (err) {
+      try {
+        await fs.promises.rename(fileName, renameFileName);
+      } catch (error) {
+        if (error.code === 'ENOENT') {
+          throw new Error(errorMessage);
+        }
+      }
     } else {
-      throw error;
+      throw new Error(errorMessage);
     }
-  }
+  });
 };
 
 await rename();
